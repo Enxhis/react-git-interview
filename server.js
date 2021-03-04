@@ -10,7 +10,11 @@ const MongoStore = require("connect-mongo")(session);
 
 const path = require("path");
 
-
+// Creating express app and configuring middleware needed for authentication
+const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/gitinterview", {
   useNewUrlParser: true,
@@ -38,11 +42,7 @@ if (process.env.NODE_ENV === "production") {
 const PORT = process.env.PORT || 3001;
 
 
-// Creating express app and configuring middleware needed for authentication
-const app = express();
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static("public"));
+
 // We need to use sessions to keep track of our user's login status
 app.use(
   session({
