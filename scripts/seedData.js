@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const db = require('../models');
-const config = require('config');
+//const config = require('config');
+const dotenv = require('dotenv').config();
 
 mongoose.connect(
-    process.env.MONGODB_URI || config.get('mongoURI')
+    process.env.MONGODB_URI || "mongodb://localhost/gitinterview"
 );
 
 const questionSeed = [
