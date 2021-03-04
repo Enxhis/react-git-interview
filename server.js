@@ -5,8 +5,8 @@ const config = require('config');
 const dotenv = require("dotenv");
 dotenv.config();
 // const bodyParser = require("body-parser");
-const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
+//const session = require("express-session");
+//const MongoStore = require("connect-mongo")(session);
 
 const path = require("path");
 
@@ -33,9 +33,9 @@ if (process.env.NODE_ENV === "development") {
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
+  // app.get("*", (req, res) => {
+  //   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  // });
 }
 
 // Setting up port and requiring models for syncing
@@ -43,15 +43,15 @@ const PORT = process.env.PORT || 3001;
 
 
 
-// We need to use sessions to keep track of our user's login status
-app.use(
-  session({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  })
-);
+// // We need to use sessions to keep track of our user's login status
+// app.use(
+//   session({
+//     secret: "keyboard cat",
+//     resave: false,
+//     saveUninitialized: false,
+//     store: new MongoStore({ mongooseConnection: mongoose.connection }),
+//   })
+// );
 
 app.use('/api/users', require('./routes/Authentication/user-routes'))
 app.use('/api/questions', require('./routes/questions-api-routes'))
