@@ -2,15 +2,23 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const config = require('config');
+const dotenv = require("dotenv");
+dotenv.config();
 // const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 
 const path = require("path");
 
-const db = config.get("mongoURI");
 
-mongoose.connect(process.env.MONGODB_URI || db );
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/gitinterview", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false
+});
+
 
 // logging
 if (process.env.NODE_ENV === "development") {
@@ -46,7 +54,7 @@ app.use(
 );
 
 app.use('/api/users', require('./routes/Authentication/user-routes'))
-app.use('/api/questions', require('./routes/questions-api-routes')) 
+app.use('/api/questions', require('./routes/questions-api-routes'))
 app.use('/api/auth', require('./routes/Authentication/auth-routes'))
 
 // Syncing our database and logging a message to the user upon success
